@@ -38,6 +38,8 @@ import org.openjdk.jmh.annotations.Mode;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.function.*;
+
 public class MyBenchmark {
 
     static class MyBean {
@@ -79,17 +81,15 @@ public class MyBenchmark {
     @BenchmarkMode(Mode.AverageTime)
     public void testMethod() {
         List<MyBean> myBeans = new ArrayList<>();
-        myBeans.add(toMyBean(1, "Ram"));
-        myBeans.add(toMyBean(2,"Adarsh"));
-        myBeans.add(toMyBean(3, "Prabhu"));
+        Supplier<MyBean> myBeanSupplier = () -> toMyBean(1, "Ram");
+        myBeans.add(myBeanSupplier.get());
     }
 
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     public void testMethodStatic() {
         List<MyBean> myBeans = new ArrayList<>();
-        myBeans.add(toMyBeanStatic(1, "Ram"));
-        myBeans.add(toMyBeanStatic(2,"Adarsh"));
-        myBeans.add(toMyBeanStatic(3, "Prabhu"));
+        Supplier<MyBean> myBeanSupplier = () -> toMyBeanStatic(1, "Ram");
+        myBeans.add(myBeanSupplier.get());
     }
 }
